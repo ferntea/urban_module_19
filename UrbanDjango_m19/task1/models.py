@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
-
+from task1.models import Buyer
 class Buyer(models.Model):
     name = models.CharField(max_length=100)  # Username of the buyer
     balance = models.DecimalField(max_digits=10, decimal_places=2)  # Balance
