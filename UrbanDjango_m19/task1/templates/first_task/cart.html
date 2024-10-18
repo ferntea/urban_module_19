@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина</title>
+</head>
+<body>
+
+<h1>Ваша корзина</h1>
+<div class="cart" id="cart">
+    <ul id="cart-items"></ul>
+    <p id="total-price">ИТОГО: 0.00</p>
+    <p id="empty-cart-message" style="display: none;">Извините, Ваша корзина пуста</p>
+</div>
+
+<!-- New Empty Cart button -->
+<button id="empty-cart-button" style="display: none;">Очистить корзину</button>
+
+<p><a href="{% url 'shop' %}">Новый выбор покупок</a></p>
+
+<script>
+    // Retrieve cart items from local storage
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const totalPrice = parseFloat(localStorage.getItem('totalPrice')) || 0;
+
+    function displayCart() {
+        const cartItemsElement = document.getElementById('cart-items');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const emptyCartButton = document.getElementById('empty-cart-button');
+        cartItemsElement.innerHTML = '';
+
+        if (cartItems.length === 0) {
+            emptyCartMessage.style.display = 'block';
+            document.getElementById('total-price').style.display = 'none';
+            emptyCartButton.style.display = 'none'; // Hide the empty cart button
+        } else {
+            emptyCartMessage.style.display = 'none';
+            document.getElementById('total-price').style.display = 'block';
+            emptyCartButton.style.display = 'inline-block'; // Show the empty cart button
+
+            cartItems.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                cartItemsElement.appendChild(li);
+            });
+
+            document.getElementById('total-price').textContent = 'ИТОГО: ' + totalPrice.toFixed(2);
+        }
+    }
+
+    function emptyCart() {
+        // Clear local storage items
+        localStorage.removeItem('cartItems');
+        localStorage.removeItem('totalPrice');
+        // Reset the cartItems array
+        cartItems.length = 0;
+        // Update the display
+        displayCart();
+    }
+
+    // Attach event listener to the empty cart button
+    document.getElementById('empty-cart-button').addEventListener('click', emptyCart);
+
+    // Initial display of the cart
+    displayCart();
+</script>
+
+</body>
+</html>

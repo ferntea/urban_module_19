@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин настольных игр</title>
+    <style>
+        .game {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+        }
+        .cart {
+            margin-top: 20px;
+            border: 1px solid #000;
+            padding: 10px;
+        }
+        .link {
+            margin-top: 20px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Магазин настольных игр</h1>
+<div id="game-list">
+    <div class="game">
+        <h2>Имаджинариум</h2>
+        <p>Цена: 20.00</p>
+        <button onclick="addToCart('Имаджинариум', 20)">Купить</button>
+    </div>
+    <div class="game">
+        <h2>Кубик Рубика</h2>
+        <p>Цена: 25.00</p>
+        <button onclick="addToCart('Кубик Рубика', 25)">Купить</button>
+    </div>
+    <div class="game">
+        <h2>Эрудит</h2>
+        <p>Цена: 30.00</p>
+        <button onclick="addToCart('Эрудит', 30)">Купить</button>
+    </div>
+</div>
+
+<div class="cart" id="cart">
+    <h2>Корзина</h2>
+    <ul id="cart-items"></ul>
+    <p id="total-price">ИТОГО: 0.00</p>
+    <p class="link"><a href="{% url 'cart' %}">Корзина</a></p>
+</div>
+
+<script>
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    let totalPrice = parseFloat(localStorage.getItem('totalPrice')) || 0;
+
+    function addToCart(gameName, gamePrice) {
+        cartItems.push(gameName);
+        totalPrice += gamePrice;
+
+        updateCart();
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        localStorage.setItem('totalPrice', totalPrice);
+    }
+
+    function updateCart() {
+        const cartItemsElement = document.getElementById('cart-items');
+        cartItemsElement.innerHTML = '';
+        cartItems.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item;
+            cartItemsElement.appendChild(li);
+        });
+
+        document.getElementById('total-price').textContent = 'ИТОГО: ' + totalPrice.toFixed(2);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .error { color: red; }
+    </style>
+    <script>
+        function handleSubmit(event) {
+            const submitButton = document.getElementById('submit-btn');
+            submitButton.disabled = true;
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h4 class="error">{{ error }}</h4>
+    <form method="post" onsubmit="return handleSubmit(event);">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Render form fields -->
+        <button type="submit" id="submit-btn">Зарегистрироваться</button>
+    </form>
+
+    {% if form.errors %}
+        <div class="error">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>
