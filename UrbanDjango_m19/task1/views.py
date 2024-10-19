@@ -5,7 +5,7 @@ from .forms import UserRegister
 # Sample list of existing users (consider using a database in a real application)
 users = ['Ann', 'Anton', 'Peter']
 
-template_name = 'first_task/registration_page.html'
+template_name = 'first_task/register.html'
 
 def sign_up_by_html(request):
     form = UserRegister()
