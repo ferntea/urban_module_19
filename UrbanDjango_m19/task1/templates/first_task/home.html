@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
+{% extends 'first_task/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
     <h1>Добро пожаловать!</h1>
     <p><a href="{% url 'shop' %}">Войти в магазин</a></p>
-</body>
-</html>
+{% endblock %}

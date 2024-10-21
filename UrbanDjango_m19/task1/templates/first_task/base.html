@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+        }
+        .menu {
+            background-color: #333;
+            color: white;
+            overflow: hidden;
+        }
+        .menu a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .menu a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .menu a.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu">
+        <a href="{% url 'home' %}" {% if request.path == '/' or request.path == '/home/' %}class="active"{% endif %}>Home</a>
+        <a href="{% url 'shop' %}" {% if request.path == '/shop/' %}class="active"{% endif %}>Shop</a>
+        <a href="{% url 'cart' %}" {% if request.path == '/cart/' %}class="active"{% endif %}>Cart</a>
+    </div>
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
