@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import UserRegister
-from .models import Buyer
+from .models import Buyer, Game
+from django.core.paginator import Paginator
 
 # Sample list of existing users
 # users = ['Ann', 'Anton', 'Peter']
@@ -42,9 +43,16 @@ def home(request):
 from django.shortcuts import render
 from .models import Game
 
+
 def shop_view(request):
     games = Game.objects.all()
-    context = {'games': games}
+
+    # Pagination
+    paginator = Paginator(games, 3)  # 3 games/page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {'games': page_obj}
     return render(request, 'first_task/shop.html', context)
 
 def cart_view(request):

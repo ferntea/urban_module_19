@@ -20,7 +20,28 @@
         <p>Цена: {{ game.cost }}</p>
         <button onclick="addToCart('{{ game.title }}', {{ game.cost }})">Купить</button>
     </div>
+    {% empty %}
+        <p>Нет доступных игр.</p>
     {% endfor %}
+</div>
+
+<!-- Пагинация -->
+<div class="pagination">
+    <span class="step-links">
+        {% if games.has_previous %}
+            <a href="?page=1">&laquo; Первая</a>
+            <a href="?page={{ games.previous_page_number }}">Предыдущая</a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ games.number }} из {{ games.paginator.num_pages }}.
+        </span>
+
+        {% if games.has_next %}
+            <a href="?page={{ games.next_page_number }}">Следующая</a>
+            <a href="?page={{ games.paginator.num_pages }}">Последняя &raquo;</a>
+        {% endif %}
+    </span>
 </div>
 
 <script>
