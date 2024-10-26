@@ -45,15 +45,22 @@ from .models import Game
 
 
 def shop_view(request):
+    items_per_page = request.GET.get('items_per_page', '3')  # Default to 5
+    items_per_page = int(items_per_page) if items_per_page.isdigit() else 3
+
     games = Game.objects.all()
+    paginator = Paginator(games, items_per_page)  # Create a paginator object
 
-    # Pagination
-    paginator = Paginator(games, 3)  # 3 games/page
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginator.get_page(page_number)  # Get the current page
 
-    context = {'games': page_obj}
-    return render(request, 'first_task/shop.html', context)
+    return render(request, 'first_task/game_list.html', {
+        'page_obj': page_obj,
+        'items_per_page': items_per_page,
+        'games': games  # Pass the full list of games if needed
+    })
+
 
 def cart_view(request):
     return render(request, 'first_task/cart.html')
+
